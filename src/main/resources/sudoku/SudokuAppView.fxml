@@ -6,9 +6,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<?import com.sun.javafx.scene.control.ContextMenuContent.ArrowMenuItem?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sudoku.SudokuAppController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="900.0" prefWidth="1200.0">
 
-</AnchorPane>
+    <!-- top bar in the application -->
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="File">
+                    <CheckMenuItem text="Quit" onAction="#menuQuit"/>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- center, houses the 9x9 sudoku board and the virtual num pad -->
+    <center>
+        <HBox spacing="30">
+            <padding> <Insets left="100"/> </padding>
+            <StackPane>
+                <GridPane fx:id="sudokuGrid" alignment="CENTER" gridLinesVisible="false">
+                </GridPane>
+            </StackPane>
+            <StackPane>
+                <VBox spacing="5">
+                    <HBox fx:id="numPadRowOne" spacing="5" alignment="CENTER">
+                    </HBox>
+                    <HBox fx:id="numPadRowTwo" spacing="5" alignment="CENTER">
+                    </HBox>
+                    <HBox fx:id="numPadRowThree" spacing="5" alignment="CENTER">
+                    </HBox>
+                </VBox>
+            </StackPane>
+        </HBox>
+    </center>
+
+</BorderPane>
