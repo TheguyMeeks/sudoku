@@ -49,7 +49,7 @@ public class SudokuAppController {
                 StackPane stackPane =  new StackPane();
                 Label gridBox = new Label();
 
-                gridBox.setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 10; -fx-font-family: 'Arial Rounded MT Bold'");
+                gridBox.setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35; -fx-font-family: 'JetBrains Mono ExtraBold'");
                 labels[row][col] = gridBox;
 
                 stackPane.getChildren().add(gridBox);
@@ -91,11 +91,15 @@ public class SudokuAppController {
 
     public void handleKeyPresses(KeyEvent e, int row, int col) {
         KeyCode code = e.getCode();
-        if (code.isDigitKey() || code.name().startsWith("NUMPAD") && code.name().length() == 7) {
-            String input = e.getText();
-            labels[row][col].setText(input);
-            System.out.println(input + " should have been written");
+        if ( !(code.equals(KeyCode.DIGIT0)|| code.equals(KeyCode.NUMPAD0)) ) {
+            if (code.isDigitKey() || code.name().startsWith("NUMPAD") && code.name().length() == 7) {
+                String input = e.getText();
 
+                Label currentLabel = labels[row][col];
+                currentLabel.setText(input);
+                System.out.println(input + " should have been written");
+
+            }
         }
     }
 
