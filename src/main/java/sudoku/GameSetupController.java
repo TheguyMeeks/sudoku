@@ -36,7 +36,7 @@ public class GameSetupController {
     private void launchGame (ActionEvent event) {
        Button difficulty = (Button) event.getSource();
 
-       // launch the game of sudoku with playGame(difficulty)
+       // launch the game of sudoku with prepareGame(difficulty)
         try {
             FXMLLoader loader = new FXMLLoader(SudokuApp.class.getResource("SudokuAppView.fxml"));
             Stage gameStage = (Stage) titleLabel.getScene().getWindow();
@@ -44,7 +44,7 @@ public class GameSetupController {
             gameStage.setScene(gameScene); // take that empty window and dump this scene into it
 
             SudokuAppController controller = loader.getController();
-            controller.playGame(difficulty);
+            controller.prepareGame(difficulty);
 
             // handle key presses in the scene later that was a pain last time. hopefully we learned something
 

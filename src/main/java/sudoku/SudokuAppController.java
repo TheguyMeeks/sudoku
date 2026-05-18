@@ -25,6 +25,19 @@ public class SudokuAppController {
     private Label[][] labels;
     private int boxSize = 68;
 
+
+    // ============================
+    // Getters
+    // ============================
+    public GridPane getSudokuGrid() {
+        return this.sudokuGrid;
+    }
+
+    public Label[][] getLabels() {
+        return this.labels;
+    }
+
+
     // ============================
     // FXML METHODS RAHHH
     // ============================
@@ -49,7 +62,7 @@ public class SudokuAppController {
                 StackPane stackPane =  new StackPane();
                 Label gridBox = new Label();
 
-                gridBox.setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35; -fx-font-family: 'JetBrains Mono ExtraBold'");
+                gridBox.setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35 ; -fx-font-family: 'JetBrains Mono ExtraBold'");
                 labels[row][col] = gridBox;
 
                 stackPane.getChildren().add(gridBox);
@@ -80,7 +93,7 @@ public class SudokuAppController {
         }
     }
 
-    public void playGame(Button difficulty) {
+    public void prepareGame(Button difficulty) {
       // plays the game of sudoku with the selected difficulty
         drawGame();
     }
@@ -107,6 +120,8 @@ public class SudokuAppController {
         toggleCell(row, col);
         // this function might not be needed
     }
+
+
 
 
 
