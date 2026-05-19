@@ -3,9 +3,7 @@ package sudoku;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SudokuSolver {
     //fields
@@ -23,6 +21,7 @@ public class SudokuSolver {
     public boolean isValid(GridPane grid, int row, int col, int num) {
         // first set the number we want to test
         Label targetLabel = labelMatrix[row][col];
+        String numStr = String.valueOf(num);
 
 //        targetLabel.setText(String.valueOf(num));
 
@@ -38,18 +37,15 @@ public class SudokuSolver {
                 continue;
             }
 
-            if (Integer.parseInt(currentLabel.getText()) == num) {
+            if (currentLabel.getText().equals(numStr)) {
                 return false;
             }
         }
 
         // check by column
-        Label[] targetCol = new Label[labelMatrix.length];
-        for (int i = 0; i < labelMatrix.length; i++) {
-            targetCol[i] = labelMatrix[i][col];
-        }
+        for (Label[] rowArray : labelMatrix) {
+            Label currentLabel = rowArray[col]; // pulls the column element from each row, essentially the same as looping through a column
 
-        for (Label currentLabel : targetCol) {
             if (currentLabel == targetLabel) {
                 continue;
             }
@@ -58,10 +54,13 @@ public class SudokuSolver {
                 continue;
             }
 
-            if (Integer.parseInt(currentLabel.getText()) == num) {
+            if (currentLabel.getText().equals(numStr)) {
                 return false;
             }
         }
+
+
+
 
         // check each 3x3 grid
         Coordinate startingCoord = locate3x3(grid, row,col);
@@ -79,7 +78,7 @@ public class SudokuSolver {
                     continue;
                 }
 
-                if (Integer.parseInt(labelMatrix[i][j].getText()) == num) {
+                if (labelMatrix[i][j].getText().equals(numStr)) {
                     return false;
                 }
             }
