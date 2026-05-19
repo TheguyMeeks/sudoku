@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
+
 public class GameSetupController {
 
     // NORMAL FIELDS
@@ -35,6 +36,7 @@ public class GameSetupController {
     @FXML
     private void launchGame (ActionEvent event) {
        Button difficulty = (Button) event.getSource();
+       System.out.println(difficulty); // just to see
 
        // launch the game of sudoku with prepareGame(difficulty)
         try {
@@ -45,6 +47,8 @@ public class GameSetupController {
 
             SudokuAppController controller = loader.getController();
             controller.prepareGame(difficulty);
+
+            SudokuSolver solver = new SudokuSolver(controller);
 
             // handle key presses in the scene later that was a pain last time. hopefully we learned something
 

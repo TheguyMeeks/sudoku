@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
+import java.util.Arrays;
+
 public class SudokuAppController {
 
     //FXML FIELDS
@@ -43,7 +45,7 @@ public class SudokuAppController {
     // ============================
     @FXML
     public void initialize() {
-
+        drawGame();
     }
 
     @FXML
@@ -95,7 +97,8 @@ public class SudokuAppController {
 
     public void prepareGame(Button difficulty) {
       // plays the game of sudoku with the selected difficulty
-        drawGame();
+      // instead of calling drawGame() here, we call it in initialization, and then fill in the numbers difficulty wise here.
+        printLabels();
     }
 
     private void toggleCell(int row, int col) {
@@ -122,7 +125,9 @@ public class SudokuAppController {
     }
 
 
-
+    public void printLabels() {
+        System.out.println(Arrays.deepToString(labels));
+    }
 
 
 }
