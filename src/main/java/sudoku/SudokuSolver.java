@@ -3,7 +3,10 @@ package sudoku;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class SudokuSolver {
     //fields
@@ -91,7 +94,7 @@ public class SudokuSolver {
 
 
     protected Coordinate locate3x3(GridPane grid, int row, int col) {
-        // Given any random labels coordinates, find the 3x3 box it belongs to
+        // Given any random labels coordinates, find its band and stack, then find the 3x3 box it belongs to
 
         // Bands are 3 horizontal 3x3 boxes, stacks are 3 vertical
         int currentBand = switch (row) {
@@ -147,8 +150,33 @@ public class SudokuSolver {
         return coords;
     }
 
-    public boolean isValidBoard (GridPane grid) {
+    public boolean solveBoard(GridPane grid, int row, int col) {
         // checks if the entire board is valid
+
+        // base case
+        if (row == 9) {
+            return true;
+        }
+        int nextRow = (col == 8) ? row + 1 : row;
+        int nextCol = (col == 8) ? 0 : col + 1;
+        List<Integer> numBank = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        Collections.shuffle(numBank);
+
+        for (int i = 0; i < numBank.size(); i++) {
+            boolean validNumber = isValid(grid, row, col, numBank.get(i));
+            Label targetLabel = labelMatrix[row][col];
+
+            if (validNumber) {
+                targetLabel.setText(String.valueOf(numBank.get(i)));
+                boolean solvedNextBox = solveBoard(grid,nextRow, nextCol);
+                if (solvedNextBox) {
+                    return true;
+                } else {
+                    targetLabel.setText("");
+                }
+            }
+
+        }
         return false;
     }
 

@@ -107,7 +107,7 @@ public class SudokuAppController {
 
     public void handleKeyPresses(KeyEvent e, int row, int col) {
         KeyCode code = e.getCode();
-        if ( !(code.equals(KeyCode.DIGIT0)|| code.equals(KeyCode.NUMPAD0)) ) {
+        if ( !(code.equals(KeyCode.DIGIT0) || code.equals(KeyCode.NUMPAD0)) ) {
             if (code.isDigitKey() || code.name().startsWith("NUMPAD") && code.name().length() == 7) {
                 String input = e.getText();
 
