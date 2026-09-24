@@ -16,6 +16,10 @@ public class SudokuCell {
         return this.label;
     }
 
+    public String getValue() {
+        return this.label.getText();
+    }
+
     public void lock() {
         isLocked = true;
     }
