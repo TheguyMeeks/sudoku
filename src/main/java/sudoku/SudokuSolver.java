@@ -1,6 +1,5 @@
 package sudoku;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -11,53 +10,53 @@ import java.util.List;
 public class SudokuSolver {
     //fields
     private SudokuAppController controller;
-    private Label[][] labelMatrix;
+    private Cell[][] cellMatrix;
 
 
     public SudokuSolver(SudokuAppController controller) {
         this.controller = controller;
-        this.labelMatrix = controller.getLabels();
+        this.cellMatrix = controller.getCells();
     }
 
 
     // Checks if the number that we supposedly want to add is valid
     public boolean isValid(GridPane grid, int row, int col, int num) {
         // first set the number we want to test
-        Label targetLabel = labelMatrix[row][col];
+        Cell targetCell = cellMatrix[row][col];
         String numStr = String.valueOf(num);
 
-//        targetLabel.setText(String.valueOf(num));
+//        targetCell.setText(String.valueOf(num));
 
 
         // check by row
-        Label[] targetRow = labelMatrix[row]; // pluck out the row we want to search
-        for (Label currentLabel : targetRow) {
-            if (currentLabel == targetLabel) {
+        Cell[] targetRow = cellMatrix[row]; // pluck out the row we want to search
+        for (Cell currentCell : targetRow) {
+            if (currentCell == targetCell) {
                 continue;
             }
 
-            if (currentLabel.getText().isEmpty()) {
+            if (currentCell.getValue().isEmpty()) {
                 continue;
             }
 
-            if (currentLabel.getText().equals(numStr)) {
+            if (currentCell.getValue().equals(numStr)) {
                 return false;
             }
         }
 
         // check by column
-        for (Label[] rowArray : labelMatrix) {
-            Label currentLabel = rowArray[col]; // pulls the column element from each row, essentially the same as looping through a column
+        for (Cell[] rowArray : cellMatrix) {
+            Cell currentCell = rowArray[col]; // pulls the column element from each row, essentially the same as looping through a column
 
-            if (currentLabel == targetLabel) {
+            if (currentCell == targetCell) {
                 continue;
             }
 
-            if (currentLabel.getText().isEmpty()) {
+            if (currentCell.getValue().isEmpty()) {
                 continue;
             }
 
-            if (currentLabel.getText().equals(numStr)) {
+            if (currentCell.getValue().equals(numStr)) {
                 return false;
             }
         }
@@ -73,15 +72,15 @@ public class SudokuSolver {
 
         for (int i = startingRow; i < startingRow + 3; i++) {
             for (int j = startingCol; j < startingCol + 3; j++) {
-                if (labelMatrix[i][j] == targetLabel) {
+                if (cellMatrix[i][j] == targetCell) {
                     continue;
                 }
 
-                if (labelMatrix[i][j].getText().isEmpty()) {
+                if (cellMatrix[i][j].getValue().isEmpty()) {
                     continue;
                 }
 
-                if (labelMatrix[i][j].getText().equals(numStr)) {
+                if (cellMatrix[i][j].getValue().equals(numStr)) {
                     return false;
                 }
             }
@@ -164,15 +163,15 @@ public class SudokuSolver {
 
         for (int i = 0; i < numBank.size(); i++) {
             boolean validNumber = isValid(grid, row, col, numBank.get(i));
-            Label targetLabel = labelMatrix[row][col];
+            Cell targetCell = cellMatrix[row][col];
 
             if (validNumber) {
-                targetLabel.setText(String.valueOf(numBank.get(i)));
+                boolean setValue = targetCell.trySetValue(String.valueOf(numBank.get(i))); // remember to use the boolean trysetvalue returns eventually
                 boolean solvedNextBox = solveBoard(grid,nextRow, nextCol);
                 if (solvedNextBox) {
                     return true;
                 } else {
-                    targetLabel.setText("");
+                    targetCell.trySetValue("");
                 }
             }
 
@@ -181,6 +180,6 @@ public class SudokuSolver {
     }
 
     public void printLabelMatrix() {
-        System.out.println(Arrays.deepToString(labelMatrix));
+        System.out.println(Arrays.deepToString(cellMatrix));
     }
 }

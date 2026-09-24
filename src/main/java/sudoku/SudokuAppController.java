@@ -24,7 +24,7 @@ public class SudokuAppController {
     @FXML private HBox numPadRowThree;
 
     //NON-FXML FIELDS
-    private Label[][] labels;
+    private Cell[][] cells;
     private int boxSize = 68;
 
 
@@ -35,8 +35,8 @@ public class SudokuAppController {
         return this.sudokuGrid;
     }
 
-    public Label[][] getLabels() {
-        return this.labels;
+    public Cell[][] getCells() {
+        return this.cells;
     }
 
 
@@ -57,19 +57,20 @@ public class SudokuAppController {
     // NON-FXML METHODS RAHHH
     // ============================
     private void drawGame() {
-        labels = new Label[9][9]; // initialize an empty 9x9 2d array board of labels
+        cells = new Cell[9][9]; // initialize an empty 9x9 2d array board of labels
 
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                StackPane stackPane =  new StackPane();
-                Label gridBox = new Label();
+                StackPane stackPane = new StackPane();
+                Label lb = new Label();
+                Cell singleCell = new Cell(lb);
 
-                gridBox.setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35 ; -fx-font-family: 'JetBrains Mono ExtraBold'");
-                labels[row][col] = gridBox;
+                singleCell.getLabel().setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35 ; -fx-font-family: 'JetBrains Mono ExtraBold'");
+                cells[row][col] = singleCell;
 
-                stackPane.getChildren().add(gridBox);
+                stackPane.getChildren().add(singleCell.getLabel());
                 stackPane.setPrefSize(boxSize, boxSize);
-                gridBox.setPrefSize(boxSize, boxSize);
+                singleCell.getLabel().setPrefSize(boxSize, boxSize);
 
                 sudokuGrid.add(stackPane, col, row);
 
@@ -77,16 +78,16 @@ public class SudokuAppController {
                 int finalRow = row;
                 int finalCol = col;
 
-                gridBox.setFocusTraversable(true); // allow the label to take keyboard focus
+                singleCell.getLabel().setFocusTraversable(true); // allow the label to take keyboard focus
 
                 // after an annoying amount of time, we find that we have to set up the key listener outside the mouse listener, once per label creation
-                gridBox.setOnKeyPressed(keyEvent -> handleKeyPresses(keyEvent, finalRow, finalCol));
+                singleCell.getLabel().setOnKeyPressed(keyEvent -> handleKeyPresses(keyEvent, finalRow, finalCol));
 
                 // and then we have the mouse listener request the focus of the listener we defined above
-                gridBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                singleCell.getLabel().setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        gridBox.requestFocus();
+                        singleCell.getLabel().requestFocus();
 
                         System.out.println("Selected cell at: " + finalRow + ", " + finalCol);
                     }
@@ -111,8 +112,8 @@ public class SudokuAppController {
             if (code.isDigitKey() || code.name().startsWith("NUMPAD") && code.name().length() == 7) {
                 String input = e.getText();
 
-                Label currentLabel = labels[row][col];
-                currentLabel.setText(input);
+                Cell currentCell = cells[row][col];
+                currentCell.trySetValue(input);
                 System.out.println(input + " should have been written");
 
             }
@@ -126,7 +127,7 @@ public class SudokuAppController {
 
 
     public void printLabels() {
-        System.out.println(Arrays.deepToString(labels));
+        System.out.println(Arrays.deepToString(cells));
     }
 
 

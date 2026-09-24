@@ -2,11 +2,11 @@ package sudoku;
 
 import javafx.scene.control.Label;
 
-public class SudokuCell {
+public class Cell {
     private Label label;
     private boolean isLocked;
 
-    public SudokuCell(Label label) {
+    public Cell(Label label) {
         this.label = label;
         isLocked = false;
     }
