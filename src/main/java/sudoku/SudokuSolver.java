@@ -240,7 +240,6 @@ public class SudokuSolver {
         for (Cell[] matrix : cellMatrix) {
             for (Cell cell : matrix) {
                 if (!cell.getValue().isEmpty()) {cell.lock();}
-                // grey out the cell upon locking in Cell.lock()
             }
         }
     }

@@ -65,12 +65,27 @@ public class SudokuAppController {
                 Label lb = new Label();
                 Cell singleCell = new Cell(lb);
 
-                singleCell.getLabel().setStyle("-fx-border-color: #d1d4d8;-fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35 ; -fx-font-family: 'JetBrains Mono ExtraBold'");
+                singleCell.getLabel().setStyle(Cell.BASE_CELL_STYLE);
                 cells[row][col] = singleCell;
 
                 stackPane.getChildren().add(singleCell.getLabel());
                 stackPane.setPrefSize(boxSize, boxSize);
                 singleCell.getLabel().setPrefSize(boxSize, boxSize);
+
+                // check if we are on a 3x3 box boundary
+                boolean isRowBoundary = false;
+                boolean isColumnBoundary = false;
+
+                if (row == 2 || row == 5) {isRowBoundary = true;}
+                if (col == 2 || col == 5) {isColumnBoundary = true;}
+
+                if (isRowBoundary && isColumnBoundary) {
+                    singleCell.getLabel().setStyle(singleCell.getLabel().getStyle() + "-fx-border-color: #969696; -fx-border-width: 1 4 4 1;");
+                } else if (isRowBoundary) {
+                    singleCell.getLabel().setStyle(singleCell.getLabel().getStyle() + "-fx-border-color: #969696; -fx-border-width: 1 1 4 1;");
+                } else if (isColumnBoundary) {
+                    singleCell.getLabel().setStyle(singleCell.getLabel().getStyle() + "-fx-border-color: #969696; -fx-border-width: 1 4 1 1;");
+                }
 
                 sudokuGrid.add(stackPane, col, row);
 
@@ -99,7 +114,19 @@ public class SudokuAppController {
     public void prepareGame(Button difficulty) {
       // plays the game of sudoku with the selected difficulty
       // instead of calling drawGame() here, we call it in initialization, and then fill in the numbers difficulty wise here.
-        printLabels();
+        String name = difficulty.getText().toLowerCase();
+
+        int difficultyNum = switch (name) {
+            case "easy" -> 15;
+            case "medium" -> 25;
+            case "hard" -> 30;
+            default -> 1;
+        };
+
+        SudokuSolver solver = new SudokuSolver(this);
+        solver.solveBoard(0, 0);
+        solver.removePairs(difficultyNum);
+        solver.lockCells();
     }
 
     private void toggleCell(int row, int col) {

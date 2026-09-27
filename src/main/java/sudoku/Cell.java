@@ -5,6 +5,9 @@ import javafx.scene.control.Label;
 public class Cell {
     private Label label;
     private boolean isLocked;
+    static final String BASE_CELL_STYLE =
+            "-fx-border-color: #969696; -fx-alignment: center; -fx-border-width: 1; -fx-font-size: 35; -fx-font-family: 'JetBrains Mono ExtraBold';";
+
 
     public Cell(Label label) {
         this.label = label;
@@ -22,6 +25,8 @@ public class Cell {
 
     public void lock() {
         isLocked = true;
+        this.label.setStyle(this.label.getStyle() + "-fx-background-color: #dddddd");
+
     }
 
     public boolean trySetValue(String s) {

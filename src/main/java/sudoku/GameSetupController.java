@@ -48,8 +48,6 @@ public class GameSetupController {
             SudokuAppController controller = loader.getController();
             controller.prepareGame(difficulty);
 
-            SudokuSolver solver = new SudokuSolver(controller);
-            solver.solveBoard(controller.getSudokuGrid(), 0, 0);
 
             // handle key presses in the scene later that was a pain last time. hopefully we learned something
 
